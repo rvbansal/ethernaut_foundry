@@ -1,0 +1,8 @@
+**/cache
+**/lib
+**/out
+**/node_modules
+**/.github
+
+*.env
+*.prettierrc.yml
